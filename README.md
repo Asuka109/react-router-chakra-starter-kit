@@ -1,18 +1,4 @@
-# Welcome to React Router!
-
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
-
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+# React Router Chakra UI Starter Kit
 
 ## Getting Started
 
@@ -21,7 +7,7 @@ A modern, production-ready template for building full-stack React applications u
 Install the dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Development
@@ -29,7 +15,7 @@ npm install
 Start the development server with HMR:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 Your application will be available at `http://localhost:5173`.
@@ -39,7 +25,7 @@ Your application will be available at `http://localhost:5173`.
 Create a production build:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
 ## Deployment
@@ -68,7 +54,7 @@ The containerized application can be deployed to any platform that supports Dock
 
 If you're familiar with deploying Node applications, the built-in app server is production-ready.
 
-Make sure to deploy the output of `npm run build`
+Make sure to deploy the output of `pnpm run build`
 
 ```
 ├── package.json
@@ -78,10 +64,30 @@ Make sure to deploy the output of `npm run build`
 │   └── server/    # Server-side code
 ```
 
+## Code Quality
+
+This project uses [Biome](https://biomejs.dev/) for formatting, linting, and organizing imports.
+
+```bash
+# Format all files
+pnpm exec biome format --write
+
+# Format specific files
+pnpm exec biome format --write <files>
+
+# Lint and apply safe fixes to all files
+pnpm exec biome lint --write
+
+# Lint files and apply safe fixes to specific files
+pnpm exec biome lint --write <files>
+
+# Format, lint, and organize imports of all files
+pnpm exec biome check --write
+
+# Format, lint, and organize imports of specific files
+pnpm exec biome check --write <files>
+```
+
 ## Styling
 
 This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
