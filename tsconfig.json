@@ -8,10 +8,14 @@
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2022"],
     "types": ["node", "vite/client"],
+    "isolatedModules": true,
     "target": "ES2022",
     "module": "ES2022",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
+    "allowJs": true,
+    "customConditions": ["dev"],
+    "forceConsistentCasingInFileNames": true,
     "rootDirs": [".", "./.react-router/types"],
     "baseUrl": ".",
     "paths": {

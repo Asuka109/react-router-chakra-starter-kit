@@ -1,3 +1,4 @@
+import { ThemeProvider } from 'next-themes';
 import {
   isRouteErrorResponse,
   Links,
@@ -6,9 +7,8 @@ import {
   Scripts,
   ScrollRestoration,
 } from 'react-router';
-
 import type { Route } from './+types/root';
-import './app.css';
+import { ChakraProvider } from './components/chakra-provider';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -23,10 +23,14 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export function Layout({ children }: { children: React.ReactNode }) {
+interface LayoutProps extends React.PropsWithChildren {}
+
+export const Layout = (props: LayoutProps) => {
+  const { children } = props;
+
   return (
-    <html lang="en">
-      <head>
+    <html lang="en" suppressHydrationWarning>
+      <head suppressHydrationWarning>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
@@ -39,10 +43,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
+};
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <ChakraProvider>
+      <ThemeProvider disableTransitionOnChange attribute="class">
+        <Outlet />
+      </ThemeProvider>
+    </ChakraProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
