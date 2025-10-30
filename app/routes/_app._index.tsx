@@ -11,7 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { ColorModeToggle } from '../components/color-mode-toggle';
-import type { Route } from './+types/_index';
+import type { Route } from './+types/_app._index';
 
 export const meta: Route.MetaFunction = () => {
   return [

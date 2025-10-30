@@ -1,3 +1,4 @@
+import { Box, Code, Container, Heading, Text } from '@chakra-ui/react';
 import { ThemeProvider } from 'next-themes';
 import {
   isRouteErrorResponse,
@@ -46,13 +47,7 @@ export const Layout = (props: LayoutProps) => {
 };
 
 export default function App() {
-  return (
-    <ChakraProvider>
-      <ThemeProvider disableTransitionOnChange attribute="class">
-        <Outlet />
-      </ThemeProvider>
-    </ChakraProvider>
-  );
+  return <Outlet />;
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
@@ -72,14 +67,30 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
-    </main>
+    <ChakraProvider>
+      <ThemeProvider disableTransitionOnChange attribute="class">
+        <Container as="main" maxW="container.xl" pt={16} px={4}>
+          <Heading as="h1" size="2xl" mb={4}>
+            {message}
+          </Heading>
+          <Text fontSize="lg" mb={4}>
+            {details}
+          </Text>
+          {stack && (
+            <Box
+              as="pre"
+              w="full"
+              p={4}
+              overflowX="auto"
+              bg="gray.50"
+              _dark={{ bg: 'gray.800' }}
+              borderRadius="md"
+            >
+              <Code bg="none">{stack}</Code>
+            </Box>
+          )}
+        </Container>
+      </ThemeProvider>
+    </ChakraProvider>
   );
 }
