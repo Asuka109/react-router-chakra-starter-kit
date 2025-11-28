@@ -2,5 +2,11 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.biome": "explicit",
     "source.organizeImports.biome": "explicit"
-  }
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["devcontainer.json"],
+      "url": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json"
+    }
+  ]
 }

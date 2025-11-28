@@ -1,0 +1,45 @@
+{
+  "name": "Development",
+  "forwardPorts": [5173, 4173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite dev server",
+      "onAutoForward": "openBrowser"
+    },
+    "4173": {
+      "label": "Vite preview",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": [".devcontainer/post-create.sh"],
+  "waitFor": "postCreateCommand",
+  "init": true,
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "biomejs.biome",
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "files.eol": "\n",
+        "editor.insertSpaces": true,
+        "editor.indentSize": "tabSize",
+        "editor.tabSize": 2
+      },
+      "terminal.integrated.profiles.linux": {
+        "bash": {
+          "path": "bash",
+          "icon": "terminal-bash"
+        }
+      },
+      "extensions": [
+        "biomejs.biome",
+        "vitest.explorer",
+        "editorconfig.editorconfig",
+        "github.vscode-github-actions"
+      ]
+    }
+  }
+}
