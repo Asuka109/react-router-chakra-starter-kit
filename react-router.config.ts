@@ -9,5 +9,6 @@ export default {
   basename: '/gallery/react-router-chakra-starter-kit',
   future: {
     unstable_viteEnvironmentApi: true,
+    v8_middleware: true,
   },
 } satisfies Config;

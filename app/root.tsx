@@ -11,6 +11,13 @@ import {
 import type { Route } from './+types/root';
 import { ChakraProvider } from './components/chakra-provider';
 import { VConsoleProvider } from './components/vconsole-provider';
+import { staticAssetsMiddleware } from './middleware/static-assets.server';
+
+/**
+ * Middleware chain for root route
+ * Static assets middleware handles serving assets for subpath deployment
+ */
+export const middleware: Route.MiddlewareFunction[] = [staticAssetsMiddleware];
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
