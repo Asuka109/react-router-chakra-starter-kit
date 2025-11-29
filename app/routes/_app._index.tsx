@@ -14,6 +14,7 @@ import { useAuth } from '../components/auth-provider';
 import { ColorModeToggle } from '../components/color-mode-toggle';
 import { SignInButton } from '../components/sign-in-button';
 import { UserProfile } from '../components/user-profile';
+import { APP_BASE_PATH } from '../constants';
 import type { Route } from './+types/_app._index';
 
 export const meta: Route.MetaFunction = () => {
@@ -32,7 +33,12 @@ export default function Index() {
   return (
     <Box textAlign="center" fontSize="xl" pt="30vh">
       <VStack gap="8">
-        <img alt="chakra logo" src="/static/logo.svg" width="80" height="80" />
+        <img
+          alt="chakra logo"
+          src={`${APP_BASE_PATH}/static/logo.svg`}
+          width="80"
+          height="80"
+        />
         <Heading size="2xl" letterSpacing="tight">
           Welcome to React Router Chakra Starter Kit
         </Heading>
