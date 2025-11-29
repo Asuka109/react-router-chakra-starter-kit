@@ -1,12 +1,23 @@
 /**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
+ * Wrangler configuration for React Router Chakra Starter Kit
+ * Deployed to: https://asuk.app/gallery/react-router-chakra-starter-kit
+ * For more details: https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "react-router-chakra-starter-kit",
   "compatibility_date": "2025-04-04",
   "main": "./workers/app.ts",
+  /**
+   * Routes configuration for subpath deployment
+   * This worker handles all requests under /gallery/react-router-chakra-starter-kit/*
+   */
+  "routes": [
+    {
+      "pattern": "asuk.app/gallery/react-router-chakra-starter-kit/*",
+      "zone_name": "asuk.app"
+    }
+  ],
   "vars": {
     "VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare"
   },
@@ -17,7 +28,7 @@
     {
       "binding": "DB",
       "database_name": "react-router-chakra-starter-kit-db",
-      "database_id": "YOUR_DATABASE_ID",
+      "database_id": "e5edf6b5-d8d5-4280-82d7-3309fede9655",
       "migrations_dir": "drizzle/migrations"
     }
   ]

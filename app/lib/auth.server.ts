@@ -1,7 +1,12 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import { APP_BASE_URL, APP_TRUSTED_ORIGINS } from '~/constants';
 import { createDatabaseClient } from '~/db/client';
 
+/**
+ * Server-side auth configuration
+ * Deployed to: https://asuk.app/gallery/react-router-chakra-starter-kit
+ */
 export function createAuth(d1: D1Database, env: Env) {
   const db = createDatabaseClient(d1);
 
@@ -9,8 +14,9 @@ export function createAuth(d1: D1Database, env: Env) {
     database: drizzleAdapter(db, {
       provider: 'sqlite',
     }),
-    // baseURL: "https://YOUR_DOMAIN.workers.dev",
-    // trustedOrigins: ["https://YOUR_DOMAIN.workers.dev"],
+    baseURL: APP_BASE_URL,
+    basePath: '/api/auth',
+    trustedOrigins: [...APP_TRUSTED_ORIGINS],
     socialProviders: {
       github: {
         clientId: env.GITHUB_CLIENT_ID,
