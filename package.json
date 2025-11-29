@@ -36,6 +36,7 @@
     "react-router": "^7.9.5",
     "react-use": "^17.6.0",
     "remix-utils": "^8.8.0",
+    "ufo": "^1.6.1",
     "urlpattern-polyfill": "^10.1.0",
     "vconsole": "^3.15.1"
   },

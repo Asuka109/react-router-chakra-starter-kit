@@ -1,4 +1,5 @@
 import { createRequestHandler } from 'react-router';
+import { withoutBase } from 'ufo';
 import { APP_BASE_PATH } from '../app/constants';
 
 declare module 'react-router' {
@@ -19,8 +20,8 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
 
-    // Strip the base path from the URL for asset lookup
-    const pathWithoutBase = url.pathname.replace(APP_BASE_PATH, '') || '/';
+    // Strip the base path from the URL for asset lookup using ufo
+    const pathWithoutBase = withoutBase(url.pathname, APP_BASE_PATH) || '/';
 
     // Try to serve static assets first
     if (env.ASSETS) {
