@@ -1,14 +1,9 @@
 import type { Config } from '@react-router/dev/config';
 
-/**
- * React Router configuration
- * Deployed to: https://asuk.app/gallery/react-router-chakra-starter-kit
- */
+const basename = import.meta.env.VITE_APP_BASENAME || '/';
+
 export default {
   ssr: true,
-  basename: '/gallery/react-router-chakra-starter-kit',
-  future: {
-    unstable_viteEnvironmentApi: true,
-    v8_middleware: true,
-  },
+  basename,
+  future: { unstable_viteEnvironmentApi: true, v8_middleware: true },
 } satisfies Config;

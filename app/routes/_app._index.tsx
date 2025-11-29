@@ -14,7 +14,7 @@ import { useAuth } from '../components/auth-provider';
 import { ColorModeToggle } from '../components/color-mode-toggle';
 import { SignInButton } from '../components/sign-in-button';
 import { UserProfile } from '../components/user-profile';
-import { withBasePath } from '../constants';
+import { withAssetsBase } from '../constants';
 import type { Route } from './+types/_app._index';
 
 export const meta: Route.MetaFunction = () => {
@@ -35,7 +35,7 @@ export default function Index() {
       <VStack gap="8">
         <img
           alt="chakra logo"
-          src={withBasePath('/static/logo.svg')}
+          src={withAssetsBase('/static/logo.svg')}
           width="80"
           height="80"
         />

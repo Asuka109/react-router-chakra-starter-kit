@@ -119,7 +119,7 @@ npx wrangler versions deploy
 
 This application is configured to run under a subpath (`/gallery/react-router-chakra-starter-kit`). The path configuration is centralized in `app/constants.ts`:
 
-- `APP_BASE_PATH` - The base path for routing and assets
+- `APP_BASENAME` - The base path for routing and assets
 - `APP_DOMAIN` - The production domain
 - `APP_BASE_URL` - The full production URL
 - `APP_TRUSTED_ORIGINS` - Trusted origins for authentication

@@ -1,11 +1,11 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["vite.config.ts"],
+  "include": ["vite.config.ts", "react-router.config.ts"],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.cache/tsconfig.node.tsbuildinfo",
     "composite": true,
     "strict": true,
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "lib": ["ES2022"],
     "target": "ES2022",
     "module": "ES2022",
