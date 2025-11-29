@@ -1,6 +1,7 @@
 import { Box, Code, Container, Heading, Text } from '@chakra-ui/react';
 import { ThemeProvider } from 'next-themes';
 import {
+  data,
   isRouteErrorResponse,
   Links,
   Meta,
@@ -12,6 +13,14 @@ import type { Route } from './+types/root';
 import { ChakraProvider } from './components/chakra-provider';
 import { VConsoleProvider } from './components/vconsole-provider';
 import { staticAssetsMiddleware } from './middleware/static-assets.server';
+
+export const loader = async (args: Route.LoaderArgs) => {
+  return data(null, {
+    headers: { 'X-Router-Pattern': args.unstable_pattern },
+  });
+};
+
+export const headers = ({ loaderHeaders }: Route.HeadersArgs) => loaderHeaders;
 
 /**
  * Middleware chain for root route
