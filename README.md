@@ -1,4 +1,16 @@
-# React Router Chakra UI Starter Kit
+# Welcome to React Router!
+
+A modern, production-ready template for building full-stack React applications using React Router.
+
+## Features
+
+- 🚀 Server-side rendering
+- ⚡️ Hot Module Replacement (HMR)
+- 📦 Asset bundling and optimization
+- 🔄 Data loading and mutations
+- 🔒 TypeScript by default
+- 🎉 TailwindCSS for styling
+- 📖 [React Router docs](https://reactrouter.com/)
 
 ## Getting Started
 
@@ -12,6 +24,22 @@ pnpm install
 
 ### Development
 
+#### Environment Setup
+
+Copy the example environment file and configure your local environment variables:
+
+```bash
+cp .dev.vars.example .dev.vars
+```
+
+The `.dev.vars` file contains sensitive configuration like the `HEALTH_CHECK_TOKEN`. You can generate a new secure token using:
+
+```bash
+openssl rand -base64 32
+```
+
+#### Start Development Server
+
 Start the development server with HMR:
 
 ```bash
@@ -19,6 +47,14 @@ pnpm run dev
 ```
 
 Your application will be available at `http://localhost:5173`.
+
+## Previewing the Production Build
+
+Preview the production build locally:
+
+```bash
+pnpm run preview
+```
 
 ## Building for Production
 
@@ -30,64 +66,49 @@ pnpm run build
 
 ## Deployment
 
-### Docker Deployment
+Deployment is done using the Wrangler CLI.
 
-To build and run using Docker:
+### Configure Production Secrets
 
-```bash
-docker build -t my-app .
+Before deploying to production, configure your secrets:
 
-# Run the container
-docker run -p 3000:3000 my-app
+```sh
+# Set the health check token (generate a new one for production!)
+npx wrangler secret put HEALTH_CHECK_TOKEN
 ```
 
-The containerized application can be deployed to any platform that supports Docker, including:
+When prompted, enter your production token. Generate a secure token using:
 
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `pnpm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
+```sh
+openssl rand -base64 32
 ```
 
-## Code Quality
+### Deploy to Production
 
-This project uses [Biome](https://biomejs.dev/) for formatting, linting, and organizing imports.
+To build and deploy directly to production:
 
-```bash
-# Format all files
-pnpm exec biome format --write
+```sh
+pnpm run deploy
+```
 
-# Format specific files
-pnpm exec biome format --write <files>
+### Preview Deployments
 
-# Lint and apply safe fixes to all files
-pnpm exec biome lint --write
+To deploy a preview URL:
 
-# Lint files and apply safe fixes to specific files
-pnpm exec biome lint --write <files>
+```sh
+npx wrangler versions upload
+```
 
-# Format, lint, and organize imports of all files
-pnpm exec biome check --write
+You can then promote a version to production after verification or roll it out progressively:
 
-# Format, lint, and organize imports of specific files
-pnpm exec biome check --write <files>
+```sh
+npx wrangler versions deploy
 ```
 
 ## Styling
 
 This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+
+---
+
+Built with ❤️ using React Router.

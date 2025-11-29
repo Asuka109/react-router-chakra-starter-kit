@@ -10,7 +10,10 @@ import {
   Skeleton,
   VStack,
 } from '@chakra-ui/react';
+import { useAuth } from '../components/auth-provider';
 import { ColorModeToggle } from '../components/color-mode-toggle';
+import { SignInButton } from '../components/sign-in-button';
+import { UserProfile } from '../components/user-profile';
 import type { Route } from './+types/_app._index';
 
 export const meta: Route.MetaFunction = () => {
@@ -24,13 +27,23 @@ export const meta: Route.MetaFunction = () => {
 };
 
 export default function Index() {
+  const { user, isLoading } = useAuth();
+
   return (
     <Box textAlign="center" fontSize="xl" pt="30vh">
       <VStack gap="8">
         <img alt="chakra logo" src="/static/logo.svg" width="80" height="80" />
         <Heading size="2xl" letterSpacing="tight">
-          Welcome to Chakra UI v3 + React Router
+          Welcome to React Router Chakra Starter Kit
         </Heading>
+
+        {isLoading ? (
+          <Skeleton w="160px" h="50px" rounded="md" />
+        ) : user ? (
+          <UserProfile />
+        ) : (
+          <SignInButton />
+        )}
 
         <HStack gap="10">
           <Checkbox.Root defaultChecked>

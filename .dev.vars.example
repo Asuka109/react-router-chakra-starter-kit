@@ -1,0 +1,13 @@
+# Local development environment variables for Cloudflare Workers
+# Copy this file to .dev.vars and replace with your own values
+
+# Health check endpoint authentication token
+# Generate a secure token using: openssl rand -base64 32
+HEALTH_CHECK_TOKEN=your-secure-token-here
+
+# GitHub OAuth App credentials
+# Create a GitHub OAuth App at: https://github.com/settings/developers
+# Homepage URL: https://YOUR_DOMAIN.workers.dev
+# Authorization callback URL: https://YOUR_DOMAIN.workers.dev/api/auth/callback/github
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret

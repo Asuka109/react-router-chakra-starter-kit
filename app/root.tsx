@@ -10,6 +10,7 @@ import {
 } from 'react-router';
 import type { Route } from './+types/root';
 import { ChakraProvider } from './components/chakra-provider';
+import { VConsoleProvider } from './components/vconsole-provider';
 
 export const links: Route.LinksFunction = () => [
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
@@ -38,7 +39,7 @@ export const Layout = (props: LayoutProps) => {
         <Links />
       </head>
       <body>
-        {children}
+        <VConsoleProvider>{children}</VConsoleProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
