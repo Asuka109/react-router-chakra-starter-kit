@@ -35,7 +35,7 @@ export const loader = async (args: Route.LoaderArgs) => {
     'asset response content type:',
     assetResponse.headers.get('content-type'),
   );
-  if (assetResponse.status !== 404) return assetResponse;
+  return assetResponse;
 };
 
 export const meta: Route.MetaFunction = () => {
