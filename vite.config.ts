@@ -15,7 +15,7 @@ export default defineConfig(({ mode, isSsrBuild }) => {
   const assetsDir = join('assets', import.meta.env.VITE_ASSETS_BASENAME || '');
 
   return {
-    base,
+    // base,
     build: { assetsDir },
     plugins: [
       cloudflare({ viteEnvironment: { name: 'ssr' } }),
