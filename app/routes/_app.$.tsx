@@ -8,7 +8,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import debug from 'debug';
-import { Link } from 'react-router';
+import { data, Link } from 'react-router';
 import { withoutAssetsBase } from '~/constants';
 import { ColorModeToggle } from '../components/color-mode-toggle';
 import type { Route } from './+types/_app.$';
@@ -35,7 +35,8 @@ export const loader = async (args: Route.LoaderArgs) => {
     'asset response content type:',
     assetResponse.headers.get('content-type'),
   );
-  return assetResponse;
+
+  return data(assetResponse.body, assetResponse);
 };
 
 export const meta: Route.MetaFunction = () => {
