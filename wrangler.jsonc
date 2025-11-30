@@ -32,7 +32,7 @@
       "database_id": "e5edf6b5-d8d5-4280-82d7-3309fede9655",
       "migrations_dir": "drizzle/migrations"
     }
-  ]
+  ],
   /**
    * Static Assets Configuration
    * run_worker_first: true routes all requests to the worker first,
@@ -41,8 +41,8 @@
    * binding: "ASSETS" exposes the assets to the worker via env.ASSETS
    * https://developers.cloudflare.com/workers/static-assets/routing/
    */
-  // "assets": {
-  //   "binding": "ASSETS",
-  //   "run_worker_first": true
-  // }
+  "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": true
+  }
 }
