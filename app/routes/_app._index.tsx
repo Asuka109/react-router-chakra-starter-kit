@@ -10,11 +10,12 @@ import {
   Skeleton,
   VStack,
 } from '@chakra-ui/react';
+import { withBase } from 'ufo';
 import { useAuth } from '../components/auth-provider';
 import { ColorModeToggle } from '../components/color-mode-toggle';
 import { SignInButton } from '../components/sign-in-button';
 import { UserProfile } from '../components/user-profile';
-import { withAssetsBase } from '../constants';
+import { PUBLIC_BASENAME } from '../constants';
 import type { Route } from './+types/_app._index';
 
 export const meta: Route.MetaFunction = () => {
@@ -35,7 +36,7 @@ export default function Index() {
       <VStack gap="8">
         <img
           alt="chakra logo"
-          src={withAssetsBase('/static/logo.svg')}
+          src={withBase('/static/logo.svg', PUBLIC_BASENAME)}
           width="80"
           height="80"
         />

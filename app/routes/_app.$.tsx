@@ -9,7 +9,8 @@ import {
 } from '@chakra-ui/react';
 import debug from 'debug';
 import { data, Link } from 'react-router';
-import { withoutAssetsBase } from '~/constants';
+import { withoutBase } from 'ufo';
+import { ASSETS_BASENAME } from '~/constants';
 import { ColorModeToggle } from '../components/color-mode-toggle';
 import type { Route } from './+types/_app.$';
 
@@ -26,7 +27,7 @@ export const loader = async (args: Route.LoaderArgs) => {
 
   // Only handle static asset requests (paths with file extensions)
   const url = new URL(request.url);
-  url.pathname = withoutAssetsBase(url.pathname);
+  url.pathname = withoutBase(url.pathname, ASSETS_BASENAME);
   log('retrieving asset from:', url.href);
   const assetRequest = new Request(url, request);
   const assetResponse = await assetsBinding.fetch(assetRequest);
