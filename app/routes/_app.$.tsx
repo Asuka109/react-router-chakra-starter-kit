@@ -7,9 +7,36 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import debug from 'debug';
 import { Link } from 'react-router';
+import { withoutAssetsBase } from '~/constants';
 import { ColorModeToggle } from '../components/color-mode-toggle';
 import type { Route } from './+types/_app.$';
+
+const log = debug('app:middleware:static-assets');
+
+export const loader = async (args: Route.LoaderArgs) => {
+  if (import.meta.env.DEV) return;
+  const { request, context } = args;
+  log('incoming request url:', request.url);
+  const assetsBinding = context.cloudflare.env.ASSETS;
+
+  // Only handle if ASSETS binding is available (production only)
+  if (!assetsBinding) return;
+
+  // Only handle static asset requests (paths with file extensions)
+  const url = new URL(request.url);
+  url.pathname = withoutAssetsBase(url.pathname);
+  log('retrieving asset from:', url.href);
+  const assetRequest = new Request(url, request);
+  const assetResponse = await assetsBinding.fetch(assetRequest);
+
+  log(
+    'asset response content type:',
+    assetResponse.headers.get('content-type'),
+  );
+  if (assetResponse.status !== 404) return assetResponse;
+};
 
 export const meta: Route.MetaFunction = () => {
   return [
@@ -193,4 +220,3 @@ export default function NotFound() {
     </Box>
   );
 }
-

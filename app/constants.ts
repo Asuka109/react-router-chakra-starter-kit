@@ -6,7 +6,7 @@
  * - Runtime (Cloudflare Workers): APP_BASENAME, APP_ORIGIN from wrangler.jsonc vars
  * - Build time (Vite): VITE_APP_BASENAME, VITE_APP_ORIGIN from .env
  */
-import { joinURL, withoutTrailingSlash, withTrailingSlash } from 'ufo';
+import { joinURL, withBase, withoutBase, withoutTrailingSlash, withTrailingSlash } from 'ufo';
 import { invariant } from './utils/invariant';
 
 /**
@@ -53,5 +53,9 @@ invariant(GITHUB_CLIENT_SECRET, 'VITE_GITHUB_CLIENT_ID is required');
 export const APP_TRUSTED_ORIGINS = [APP_ORIGIN] as const;
 
 export function withAssetsBase(path: string): string {
-  return joinURL(ASSETS_BASENAME, path);
+  return withBase(path, ASSETS_BASENAME);
+}
+
+export function withoutAssetsBase(path: string): string {
+  return withoutBase(path, ASSETS_BASENAME);
 }

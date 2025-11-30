@@ -8,7 +8,7 @@
   "name": "react-router-chakra-starter-kit",
   "compatibility_date": "2025-04-04",
   "main": "./workers/app.ts",
-  // "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": ["nodejs_compat"],
   /**
    * Routes configuration for subpath deployment
    * This worker handles all requests under /gallery/react-router-chakra-starter-kit/*
