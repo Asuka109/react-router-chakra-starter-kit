@@ -22,3 +22,10 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare namespace Cloudflare {
+	interface Env {
+		GITHUB_CLIENT_ID?: string;
+		GITHUB_CLIENT_SECRET?: string;
+	}
+}

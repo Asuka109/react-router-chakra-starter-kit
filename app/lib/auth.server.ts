@@ -19,8 +19,8 @@ export function createAuth(d1: D1Database, env: Env) {
     trustedOrigins: [...APP_TRUSTED_ORIGINS],
     socialProviders: {
       github: {
-        clientId: GITHUB_CLIENT_ID,
-        clientSecret: GITHUB_CLIENT_SECRET,
+        clientId: GITHUB_CLIENT_ID || env.GITHUB_CLIENT_ID,
+        clientSecret: GITHUB_CLIENT_SECRET || env.GITHUB_CLIENT_SECRET,
       },
     },
     session: {
