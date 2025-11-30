@@ -8,7 +8,6 @@ export const LOCAL_ENVIRONMENT_HOSTNAMES = [
   'localhost',
   '127.0.0.1',
   '*.local',
-  '[::1]', // IPv6 localhost
 ] as const;
 
 /**
