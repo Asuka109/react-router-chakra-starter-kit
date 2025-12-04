@@ -1,6 +1,14 @@
 packages:
   - .
 
+ignoredBuiltDependencies:
+  - sharp
+
 onlyBuiltDependencies:
+  - '@prisma/client'
+  - '@prisma/engines'
+  - better-sqlite3
   - core-js
   - esbuild
+  - prisma
+  - workerd
