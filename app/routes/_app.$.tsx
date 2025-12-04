@@ -10,7 +10,7 @@ import {
 import debug from 'debug';
 import { data, Link } from 'react-router';
 import { withoutBase } from 'ufo';
-import { ASSETS_BASENAME } from '~/constants';
+import { getEnvironment } from '~/utils/environment';
 import { ColorModeToggle } from '../components/color-mode-toggle';
 import type { Route } from './+types/_app.$';
 
@@ -19,18 +19,18 @@ const log = debug('app:middleware:static-assets');
 export const loader = async (args: Route.LoaderArgs) => {
   if (import.meta.env.DEV) return;
   const { request, context } = args;
+  const { env } = context.cloudflare;
   log('incoming request url:', request.url);
-  const assetsBinding = context.cloudflare.env.ASSETS;
 
   // Only handle if ASSETS binding is available (production only)
-  if (!assetsBinding) return;
+  if (!env.ASSETS) return;
 
   // Only handle static asset requests (paths with file extensions)
   const url = new URL(request.url);
-  url.pathname = withoutBase(url.pathname, ASSETS_BASENAME);
+  url.pathname = withoutBase(url.pathname, getEnvironment(env).ASSETS_BASENAME);
   log('retrieving asset from:', url.href);
   const assetRequest = new Request(url, request);
-  const assetResponse = await assetsBinding.fetch(assetRequest);
+  const assetResponse = await env.ASSETS.fetch(assetRequest);
 
   log(
     'asset response content type:',
