@@ -25,17 +25,16 @@ export const EnvironmentSchema = z.looseObject({
  */
 export type Environment = z.infer<typeof EnvironmentSchema>;
 
-const STATIC_VARS: Record<string, string> = {
-  APP_ORIGIN: import.meta.env.VITE_APP_ORIGIN,
-  APP_BASENAME: import.meta.env.VITE_APP_BASENAME,
-  ASSETS_BASENAME: import.meta.env.VITE_ASSETS_BASENAME,
-  GITHUB_CLIENT_ID: import.meta.env.VITE_GITHUB_CLIENT_ID,
-  GITHUB_CLIENT_SECRET: import.meta.env.VITE_GITHUB_CLIENT_SECRET,
-  BETTER_AUTH_SECRET: import.meta.env.VITE_BETTER_AUTH_SECRET,
-};
-
 export const getEnvironment = memoize(<Extended extends {}>(env?: Extended) => {
-  const vars = Object.assign({}, STATIC_VARS, env);
+  const staticVars: Record<string, string> = {
+    APP_ORIGIN: import.meta.env.VITE_APP_ORIGIN,
+    APP_BASENAME: import.meta.env.VITE_APP_BASENAME,
+    ASSETS_BASENAME: import.meta.env.VITE_ASSETS_BASENAME,
+    GITHUB_CLIENT_ID: import.meta.env.VITE_GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET: import.meta.env.VITE_GITHUB_CLIENT_SECRET,
+    BETTER_AUTH_SECRET: import.meta.env.VITE_BETTER_AUTH_SECRET,
+  };
+  const vars = Object.assign({}, staticVars, env);
   const parsed = EnvironmentSchema.parse(vars) as Environment & Extended;
 
   const APP_BASE_URL = joinURL(parsed.APP_ORIGIN, parsed.APP_BASENAME);
