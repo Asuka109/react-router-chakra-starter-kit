@@ -1,6 +1,6 @@
 import { createAuthClient } from 'better-auth/react';
-import { getEnvironment } from '~/utils/environment';
+import { getStaticEnvironment } from '~/utils/environment';
 
 export const authClient = createAuthClient({
-  baseURL: getEnvironment().AUTH_BASE_URL,
+  baseURL: getStaticEnvironment().AUTH_BASE_URL,
 });
