@@ -33,7 +33,7 @@ export const EnvironmentSchema = z.looseObject({
 export type Environment = z.infer<typeof EnvironmentSchema>;
 
 export const getEnvironment = memoize(<Extended extends {}>(env?: Extended) => {
-  const staticVars: Record<string, string> = {
+  const staticVars: Record<string, string | undefined> = {
     APP_ORIGIN: import.meta.env.VITE_APP_ORIGIN,
     APP_BASENAME: import.meta.env.VITE_APP_BASENAME,
     ASSETS_BASENAME: import.meta.env.VITE_ASSETS_BASENAME,
