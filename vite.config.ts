@@ -1,18 +1,12 @@
 import { cloudflare } from '@cloudflare/vite-plugin';
 import { reactRouter } from '@react-router/dev/vite';
-import { invariant } from 'es-toolkit';
-import { withoutLeadingSlash } from 'ufo';
 import { defineConfig, loadEnv } from 'vite';
 import devtoolsJson from 'vite-plugin-devtools-json';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
-  Object.assign(import.meta, { env });
-  Object.assign(process.env, env);
-
-  const assetsDir = withoutLeadingSlash(import.meta.env.VITE_ASSETS_BASENAME);
-  invariant(assetsDir, 'ASSETS_BASENAME is required');
+  const assetsDir = env.VITE_ASSETS_BASENAME || '';
 
   return {
     build: { assetsDir },
