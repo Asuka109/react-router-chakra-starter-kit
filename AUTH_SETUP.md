@@ -158,6 +158,87 @@ The following tables are created:
 - **account** - Stores OAuth account connections
 - **verification** - Stores verification tokens
 
+## Local Development with Production OAuth
+
+GitHub OAuth requires a fixed redirect URL, which is typically set to your production domain. This makes local development challenging. We provide a **Dev OAuth Redirect** feature to solve this problem.
+
+### How It Works
+
+```
+┌─────────────────┐     ┌──────────────────┐     ┌─────────────────┐
+│  localhost:5173 │────▶│  production.com  │────▶│     GitHub      │
+│   (Your local   │     │ /api/auth/call-  │     │  OAuth Server   │
+│    dev server)  │     │ back/github      │     │                 │
+│                 │     │ ?dev_port=5173   │     │                 │
+└─────────────────┘     └──────────────────┘     └─────────────────┘
+        ▲                        │                       │
+        │                        │                       │
+        │                        ▼                       ▼
+        │               ┌──────────────────┐     ┌─────────────────┐
+        └───────────────│  production.com  │◀────│   GitHub OAuth  │
+                        │ /api/auth/call-  │     │    Callback     │
+                        │  back/github     │     │                 │
+                        └──────────────────┘     └─────────────────┘
+```
+
+1. Local dev visits `https://production.com/api/auth/callback/github?dev_port=5173`
+2. Production sets a cookie and redirects to GitHub OAuth
+3. GitHub authenticates and redirects back to production
+4. Production detects the cookie and forwards to `localhost:5173`
+5. Local dev receives the OAuth callback and completes authentication
+
+### Setup
+
+1. **Enable the feature on production** by setting the environment variable:
+
+```bash
+# In production (Cloudflare Workers)
+wrangler secret put DEV_OAUTH_PROXY_ENABLED
+# Enter: true
+```
+
+2. **Modify your local sign-in button** to use the dev redirect:
+
+```tsx
+import { authClient } from '~/lib/auth-client';
+
+const handleSignIn = () => {
+  if (import.meta.env.DEV && import.meta.env.VITE_PRODUCTION_ORIGIN) {
+    // Use production callback with dev_port for local OAuth
+    const productionOrigin = import.meta.env.VITE_PRODUCTION_ORIGIN;
+    const port = window.location.port || '5173';
+    window.location.href = `${productionOrigin}/api/auth/callback/github?dev_port=${port}`;
+  } else {
+    // Normal OAuth flow
+    authClient.signIn.social({ provider: 'github' });
+  }
+};
+```
+
+3. **Add to your local `.env` file**:
+
+```bash
+# .env.development.local
+VITE_PRODUCTION_ORIGIN=https://your-production-domain.workers.dev
+```
+
+### Security Considerations
+
+- The dev OAuth redirect is **disabled by default**
+- Only enable it when you need local development OAuth testing
+- The cookie expires after **5 minutes**
+- Redirects only go to `localhost` addresses
+- Consider disabling it in production when not actively developing
+
+### Alternative: Multiple GitHub OAuth Apps
+
+If you prefer not to use the dev redirect, you can create two GitHub OAuth Apps:
+
+1. **Production App**: Redirect URL set to your production domain
+2. **Development App**: Redirect URL set to `http://localhost:5173`
+
+Then use different `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` values for each environment.
+
 ## Troubleshooting
 
 ### Issue: Database not found
@@ -175,6 +256,14 @@ Make sure you've created the D1 database and updated the `database_id` in `wrang
 1. Check that cookies are enabled in your browser
 2. Verify that the domain is correct in the auth configuration
 3. Check browser console for any CORS errors
+
+### Issue: Dev OAuth Proxy not working
+
+1. Ensure `DEV_OAUTH_PROXY_ENABLED` is set to `'true'` on production
+2. Check that your local dev server is running on the correct port
+3. Verify the production URL in your dev proxy redirect is correct
+4. The proxy cookie expires after 5 minutes - try again if it's been too long
+5. Check browser DevTools Network tab to see the redirect chain
 
 ## Security Notes
 

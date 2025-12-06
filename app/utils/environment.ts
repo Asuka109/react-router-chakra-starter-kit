@@ -18,6 +18,13 @@ export const EnvironmentSchema = z.looseObject({
   GITHUB_CLIENT_ID: z.string(),
   GITHUB_CLIENT_SECRET: z.string(),
   BETTER_AUTH_SECRET: z.string(),
+
+  // Development OAuth proxy (allows local dev to work with production OAuth redirect)
+  // Set to 'true' to enable the dev OAuth proxy endpoint
+  DEV_OAUTH_PROXY_ENABLED: z
+    .string()
+    .optional()
+    .transform((val) => val === 'true'),
 });
 
 /**
