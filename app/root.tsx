@@ -37,7 +37,8 @@ export const links: Route.LinksFunction = () => [
 
 interface LayoutProps extends React.PropsWithChildren {}
 
-export const Layout = (_props: LayoutProps) => {
+export const Layout = (props: LayoutProps) => {
+  const { children } = props;
   return (
     <html lang="en" suppressHydrationWarning>
       <head suppressHydrationWarning>
@@ -47,6 +48,7 @@ export const Layout = (_props: LayoutProps) => {
         <Links />
       </head>
       <body>
+        {children}
         <ScrollRestoration />
         <Scripts />
       </body>
