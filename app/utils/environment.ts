@@ -53,6 +53,12 @@ export const getRuntimeEnvironment = memoize(
   },
 );
 
+export type Environment = StaticEnvironment & RuntimeEnvironment;
+
 export const getEnvironment = memoize(<Extended extends {}>(env: Extended) => {
-  return { ...getStaticEnvironment(), ...getRuntimeEnvironment(env) };
+  const res: Environment = {
+    ...getStaticEnvironment(),
+    ...getRuntimeEnvironment(env),
+  };
+  return res as Environment & Extended;
 });
