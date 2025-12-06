@@ -13,9 +13,9 @@ export type StaticEnvironment = z.infer<typeof StaticEnvironmentSchema>;
 
 export const getStaticEnvironment = memoize(() => {
   const parsed: StaticEnvironment = StaticEnvironmentSchema.parse({
-    GITHUB_CLIENT_ID: import.meta.env.VITE_GITHUB_CLIENT_ID,
-    GITHUB_CLIENT_SECRET: import.meta.env.VITE_GITHUB_CLIENT_SECRET,
-    BETTER_AUTH_SECRET: import.meta.env.VITE_BETTER_AUTH_SECRET,
+    APP_ORIGIN: import.meta.env.VITE_APP_ORIGIN,
+    APP_BASENAME: import.meta.env.VITE_APP_BASENAME,
+    ASSETS_BASENAME: import.meta.env.VITE_ASSETS_BASENAME,
   });
   const APP_BASE_URL = joinURL(parsed.APP_ORIGIN, parsed.APP_BASENAME);
   const AUTH_BASE_URL = joinURL(APP_BASE_URL, 'api/auth');
