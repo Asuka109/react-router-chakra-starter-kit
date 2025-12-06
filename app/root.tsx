@@ -1,5 +1,6 @@
 import { Box, Code, Container, Heading, Text } from '@chakra-ui/react';
 import { ThemeProvider } from 'next-themes';
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
 import {
   data,
   isRouteErrorResponse,
@@ -36,9 +37,7 @@ export const links: Route.LinksFunction = () => [
 
 interface LayoutProps extends React.PropsWithChildren {}
 
-export const Layout = (props: LayoutProps) => {
-  const { children } = props;
-
+export const Layout = (_props: LayoutProps) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <head suppressHydrationWarning>
@@ -48,7 +47,6 @@ export const Layout = (props: LayoutProps) => {
         <Links />
       </head>
       <body>
-        <VConsoleProvider>{children}</VConsoleProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -57,7 +55,13 @@ export const Layout = (props: LayoutProps) => {
 };
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <VConsoleProvider>
+      <NuqsAdapter>
+        <Outlet />
+      </NuqsAdapter>
+    </VConsoleProvider>
+  );
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
