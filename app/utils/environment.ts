@@ -1,12 +1,19 @@
 import { memoize } from 'es-toolkit';
-import { joinURL } from 'ufo';
+import { joinURL, withLeadingSlash, withoutTrailingSlash } from 'ufo';
 import { z } from 'zod';
+
+/** Normalize a path to ensure it has a leading slash but no trailing slash. */
+const normalizePath = (val: string) =>
+  withoutTrailingSlash(withLeadingSlash(val));
 
 export const StaticEnvironmentSchema = z.looseObject({
   // Application configuration
-  APP_ORIGIN: z.url().default('http://localhost:5173'),
-  APP_BASENAME: z.string().default('/'),
-  ASSETS_BASENAME: z.string().default('/assets'),
+  APP_ORIGIN: z
+    .url()
+    .default('http://localhost:5173')
+    .transform((val) => withoutTrailingSlash(val)),
+  APP_BASENAME: z.string().default('/').transform(normalizePath),
+  ASSETS_BASENAME: z.string().default('/assets').transform(normalizePath),
 });
 
 export type StaticEnvironment = z.infer<typeof StaticEnvironmentSchema>;
