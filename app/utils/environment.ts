@@ -1,12 +1,32 @@
-import { memoize } from 'es-toolkit';
+import { debug } from 'debug';
+import { memoize, once } from 'es-toolkit';
 import { joinURL, withLeadingSlash, withoutTrailingSlash } from 'ufo';
-import { z } from 'zod';
+import { z } from 'zod/v4';
+
+const log = debug('app:env');
 
 /** Normalize a path to ensure it has a leading slash but no trailing slash. */
 const normalizePath = (val: string) =>
   withoutTrailingSlash(withLeadingSlash(val));
 
-export const StaticEnvironmentSchema = z.looseObject({
+const logEnv = (vars: Record<string, unknown>) => {
+  if (!log.enabled) return;
+
+  const pairs: [string, unknown][] = [];
+  for (const [key, value] of Object.entries(vars)) {
+    if (key.includes('SECRET') && typeof value === 'string') {
+      pairs.push([key, '*'.repeat(value.length)]);
+    } else {
+      pairs.push([key, value]);
+    }
+  }
+  log(
+    'Retrieved static environment variables:\n',
+    ...pairs.map(([key, value]) => `  ${key}: ${value}\n`),
+  );
+};
+
+export const StaticEnvironmentSchema = z.object({
   // Application configuration
   APP_ORIGIN: z
     .url()
@@ -23,6 +43,8 @@ export interface StaticEnvironment
   APP_TRUSTED_ORIGINS: string[];
 }
 
+const logStaticEnv = once(logEnv);
+
 export const getStaticEnvironment = memoize((): StaticEnvironment => {
   const parsed = StaticEnvironmentSchema.parse({
     APP_ORIGIN: import.meta.env.VITE_APP_ORIGIN,
@@ -33,12 +55,9 @@ export const getStaticEnvironment = memoize((): StaticEnvironment => {
   const AUTH_BASE_URL = joinURL(APP_BASE_URL, 'api/auth');
   const APP_TRUSTED_ORIGINS = [parsed.APP_ORIGIN, 'localhost:*'];
 
-  return {
-    ...parsed,
-    APP_BASE_URL,
-    AUTH_BASE_URL,
-    APP_TRUSTED_ORIGINS,
-  };
+  const ret = { ...parsed, APP_BASE_URL, AUTH_BASE_URL, APP_TRUSTED_ORIGINS };
+  logStaticEnv(ret);
+  return ret;
 });
 
 export const STATIC_ENV = getStaticEnvironment();
@@ -62,6 +81,8 @@ export const RuntimeEnvironmentSchema = z.looseObject({
 export interface RuntimeEnvironment
   extends z.infer<typeof RuntimeEnvironmentSchema> {}
 
+const logRuntimeEnv = once(logEnv);
+
 export const getRuntimeEnvironment = memoize(
   (env: Record<string, string | undefined>): RuntimeEnvironment => {
     const staticEnv = {
@@ -70,7 +91,9 @@ export const getRuntimeEnvironment = memoize(
       BETTER_AUTH_SECRET: import.meta.env.VITE_BETTER_AUTH_SECRET,
       DEBUG: import.meta.env.VITE_DEBUG,
     };
-    return RuntimeEnvironmentSchema.parse({ ...staticEnv, ...env });
+    const ret = RuntimeEnvironmentSchema.parse({ ...staticEnv, ...env });
+    logRuntimeEnv(ret);
+    return ret;
   },
 );
 

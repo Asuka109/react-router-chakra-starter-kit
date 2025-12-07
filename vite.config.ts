@@ -7,10 +7,12 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
+  Object.assign(process.env, env);
   const assetsDir = withoutLeadingSlash(env.VITE_ASSETS_BASENAME) || '';
 
   return {
     build: { assetsDir },
+    envPrefix: ['VITE_', 'DEBUG'],
     plugins: [
       cloudflare({ viteEnvironment: { name: 'ssr' } }),
       reactRouter(),
