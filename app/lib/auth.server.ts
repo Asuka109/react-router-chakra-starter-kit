@@ -28,10 +28,7 @@ export function createAuth(d1: D1Database, env: Env) {
     },
     advanced: {
       database: {
-        generateId: () => {
-          // Use crypto.randomUUID() for better compatibility with Cloudflare Workers
-          return crypto.randomUUID();
-        },
+        generateId: () => crypto.randomUUID(),
       },
     },
   });

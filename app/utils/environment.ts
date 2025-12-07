@@ -16,10 +16,15 @@ export const StaticEnvironmentSchema = z.looseObject({
   ASSETS_BASENAME: z.string().default('/assets').transform(normalizePath),
 });
 
-export type StaticEnvironment = z.infer<typeof StaticEnvironmentSchema>;
+export interface StaticEnvironment
+  extends z.infer<typeof StaticEnvironmentSchema> {
+  APP_BASE_URL: string;
+  AUTH_BASE_URL: string;
+  APP_TRUSTED_ORIGINS: string[];
+}
 
-export const getStaticEnvironment = memoize(() => {
-  const parsed: StaticEnvironment = StaticEnvironmentSchema.parse({
+export const getStaticEnvironment = memoize((): StaticEnvironment => {
+  const parsed = StaticEnvironmentSchema.parse({
     APP_ORIGIN: import.meta.env.VITE_APP_ORIGIN,
     APP_BASENAME: import.meta.env.VITE_APP_BASENAME,
     ASSETS_BASENAME: import.meta.env.VITE_ASSETS_BASENAME,
@@ -35,6 +40,8 @@ export const getStaticEnvironment = memoize(() => {
     APP_TRUSTED_ORIGINS,
   };
 });
+
+export const STATIC_ENV = getStaticEnvironment();
 
 export const RuntimeEnvironmentSchema = z.looseObject({
   // Authentication configuration (required for auth functionality)
@@ -52,11 +59,18 @@ export const RuntimeEnvironmentSchema = z.looseObject({
     .transform((val) => val === 'true'),
 });
 
-export type RuntimeEnvironment = z.infer<typeof RuntimeEnvironmentSchema>;
+export interface RuntimeEnvironment
+  extends z.infer<typeof RuntimeEnvironmentSchema> {}
 
 export const getRuntimeEnvironment = memoize(
   (env: Record<string, string | undefined>): RuntimeEnvironment => {
-    return RuntimeEnvironmentSchema.parse(env);
+    const staticEnv = {
+      GITHUB_CLIENT_ID: import.meta.env.VITE_GITHUB_CLIENT_ID,
+      GITHUB_CLIENT_SECRET: import.meta.env.VITE_GITHUB_CLIENT_SECRET,
+      BETTER_AUTH_SECRET: import.meta.env.VITE_BETTER_AUTH_SECRET,
+      DEBUG: import.meta.env.VITE_DEBUG,
+    };
+    return RuntimeEnvironmentSchema.parse({ ...staticEnv, ...env });
   },
 );
 
