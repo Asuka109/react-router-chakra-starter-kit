@@ -1,7 +1,6 @@
 import { Button, type ButtonProps } from '@chakra-ui/react';
 import { useNavigate } from 'react-router';
 import { authClient } from '~/lib/auth-client';
-import { getStaticEnvironment, STATIC_ENV } from '~/utils/environment';
 
 interface SignOutButtonProps extends Omit<ButtonProps, 'onClick'> {
   /**
@@ -12,7 +11,7 @@ interface SignOutButtonProps extends Omit<ButtonProps, 'onClick'> {
 }
 
 export function SignOutButton({
-  redirectTo = STATIC_ENV.APP_BASENAME,
+  redirectTo = '/',
   children = 'Sign Out',
   ...buttonProps
 }: SignOutButtonProps) {
